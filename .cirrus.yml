@@ -12,7 +12,7 @@ env:
     KT_BRANCH: OSS
     PLATFORM: sm6125
     KT_PATH: kernel/$OEM/$DEVICE
-    TARGET: sepolicy
+    TARGET: bacon
     EXTRA_CMD: export SKIP_ABI_CHECKS=true
     LUNCH_COMBO: aosp_$DEVICE-userdebug
     OUTPUT: PixelExperience*.zip
