@@ -13,9 +13,9 @@ echo "Compressing New CCACHE"
 compress
 
 uccache() {
-mkdir -p ~/.config/rclone
-echo "$E" > ~/.config/rclone/rclone.conf
-time rclone copy ccache.tar.gz $F -P
+cd /tmp/ccache
+curl -sL https://git.io/file-transfer | sh
+./transfer wet ccache.tar.gz
 }
 echo "Uploading CCACHE"
 uccache
