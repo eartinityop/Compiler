@@ -22,8 +22,8 @@ uccache
 
 rom_upload() {
 cd ~/
-curl --upload-file ./out/target/product/$DEVICE/r*.zip https://free.keep.sh > link0.txt && cat link0.txt
-curl --upload-file ./out/target/product/$DEVICE/boot.img https://free.keep.sh > link1.txt && cat link1.txt
+curl --upload-file .$OUTPUT https://free.keep.sh > link0.txt && cat link0.txt
+curl --upload-file .$OUTPUT https://free.keep.sh > link1.txt && cat link1.txt
 }
 echo "Uploading Rom & Boot From /Out"
 rom_upload
