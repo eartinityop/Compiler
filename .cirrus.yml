@@ -16,12 +16,36 @@ task:
       memory: 32G
 
   Setup-Environment_script:
-      - ./setup.sh
+      - sudo apt update &&sudo apt install pigz wget jq curl repo -y
+      - sudo apt upgrade -y
+ 
   Sync_script:
-      - ./sync.sh
+      - repo init --depth=1 --no-repo-verify -u $MANIFEST 
+      - repo sync -c --force-sync --optimized-fetch --no-tags --no-clone-bundle -j$(nproc --all)
+      - git clone $LOCAL_MANIFEST .repo/local_manifests
+ 
+  Storage-Checker_script:
+      - df -h
+
+  Build_script:
+      - source build/envsetup.sh || . build/envsetup.sh
+      - lunch $LUNCH_COMBO
+      - $EXTRA_CMD
+      - export CCACHE_DIR=/tmp/ccache
+      - export CCACHE_EXEC=$(which ccache)
+      - export USE_CCACHE=1
+      - ccache -M 50G
+      - ccache -o compression=true
+      - ccache -z
+      - $EXTRA_CMD
+      - mka $TARGET || curl --upload-file ./out/error.log https://free.keep.sh > link.txt && cat link.txt
+      - echo "Initializing Build System"
+
   Post-Storage-Checker_script:
       - df -h
-  Build_script:
-      - ./build.sh
+       
   Upload_script:
-      - ./upload.sh
+      - time tar --use-compress-program="pigz -k -$2 " -cf $1.tar.gz $1 ccache 1
+      - cd /tmp/ccache
+      - curl -sL https://git.io/file-transfer | sh
+      - ./transfer wet ccache.tar.gz
