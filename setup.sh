@@ -3,7 +3,7 @@ setup() {
 sudo apt update &&sudo apt install pigz wget jq curl repo -y
 sudo apt upgrade -y
 }
-echo "Setting Up AOSP Build Environment"
+echo "Setting Up Build Environment"
 setup
 
 ccache() {
@@ -12,5 +12,5 @@ time aria2c $LINK -x16 -s50 || echo "No ccache link provided, build will fail du
 time tar xf ccache.tar.gz
 cd ~/
 }
-echo "Downloading CCACHE"
+echo "Downloading cache"
 ccache
